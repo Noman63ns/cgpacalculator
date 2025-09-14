@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CGPA Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+    .btn-primary {
+      border-radius: 10px;
+      font-weight: 600;
+      padding: 10px 20px;
+    }
+    .btn-secondary {
+      border-radius: 10px;
+    }
+    h2 {
+      font-weight: 700;
+      color: #333;
+    }
+    table th {
+      background: #0d6efd;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div class="container py-5">
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card p-4">
+        <h2 class="text-center mb-4">🎓 CGPA Calculator</h2>
+
+        <form method="POST">
+          <div id="courses">
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <input type="text" name="course" placeholder="Course Name" class="form-control" required>
+              </div>
+              <div class="col-md-4">
+                <input type="number" name="credit" placeholder="Credits" step="0.5" class="form-control" required>
+              </div>
+              <div class="col-md-4">
+                <select name="grade" class="form-select" required>
+                  <option value="">Select Grade</option>
+                  {% for g in grades %}
+                    <option value="{{ g }}">{{ g }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" onclick="addCourse()">+ Add Course</button>
+            <button type="submit" class="btn btn-primary">Calculate CGPA</button>
+          </div>
+        </form>
+
+        {% if cgpa %}
+        <div class="mt-5">
+          <div class="alert alert-success text-center">
+            <h4>Your CGPA: <strong>{{ cgpa }}</strong></h4>
+          </div>
+          <table class="table table-bordered mt-3 text-center align-middle">
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Credit</th>
+                <th>Grade</th>
+                <th>Point</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in courses %}
+              <tr>
+                <td>{{ c.course }}</td>
+                <td>{{ c.credit }}</td>
+                <td>{{ c.grade }}</td>
+                <td>{{ c.point }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function addCourse() {
+  let div = document.createElement("div");
+  div.classList.add("row","g-3","mb-3");
+  div.innerHTML = `
+    <div class="col-md-4">
+      <input type="text" name="course" placeholder="Course Name" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <input type="number" name="credit" placeholder="Credits" step="0.5" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <select name="grade" class="form-select" required>
+        <option value="">Select Grade</option>
+        {% for g in grades %}
+          <option value="{{ g }}">{{ g }}</option>
+        {% endfor %}
+      </select>
+    </div>`;
+  document.getElementById("courses").appendChild(div);
+}
+</script>
+</body>
+</html>
