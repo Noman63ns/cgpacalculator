@@ -1,0 +1,6 @@
+name = "worker-name"
+main = "src/index.js"
+compatibility_date = "2025-10-16"
+
+[assets]
+directory = "./dist"
